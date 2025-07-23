@@ -1,0 +1,12 @@
+# Ignore Git metadata
+.git
+.gitignore
+
+# Ignore Dockerfiles in subfolders (not needed)
+Dockerfile.*
+
+# Ignore local build artifacts
+*.o
+*.exe
+
+# Anything else that shouldn’t go into the container
