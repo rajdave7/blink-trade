@@ -9,8 +9,8 @@
 ### Folder Structure
 
 blinktrade/
-├── simulator/
-├── decoder/
-├── streamer/
-├── dashboard/
-└── infra/
+-----simulator/
+-----decoder/
+-----streamer/
+-----dashboard/
+-----infra/
