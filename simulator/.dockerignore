@@ -3,6 +3,7 @@
 .gitignore
 
 # Ignore Dockerfiles in subfolders (not needed)
+Dockerfile*
 Dockerfile.*
 
 # Ignore local build artifacts
