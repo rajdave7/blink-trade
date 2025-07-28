@@ -40,12 +40,16 @@ void send_ticks(const std::string &symbol,
                           std::chrono::system_clock::now()
                               .time_since_epoch())
                           .count();
+        t.side = (rand() % 2 == 0 ? 'B' : 'A');
 
         json j = {
-            {"symbol", t.symbol},
-            {"price", t.price},
-            {"size", t.size},
-            {"timestamp", t.timestamp}};
+            {"symbol",    t.symbol},
+            {"price",     t.price},
+            {"size",      t.size},
+            {"timestamp", t.timestamp},
+            {"side",      std::string(1, t.side)}
+        };                        
+        
 
         auto payload = j.dump() + "\n";
         socket.send_to(boost::asio::buffer(payload), endpoint);
