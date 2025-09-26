@@ -35,6 +35,8 @@ services:
       context: ./decoder-publisher
     depends_on:
       - kafka
+    ports:
+      - "8000:8000"  # Prometheus metrics
     environment:
       - KAFKA_BROKER=kafka:9092
     restart: on-failure
@@ -48,3 +50,32 @@ services:
       - KAFKA_BOOTSTRAP=kafka:9092
       - KAFKA_TOPIC=market.ticks
     restart: on-failure
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+
+volumes:
+  grafana-storage:

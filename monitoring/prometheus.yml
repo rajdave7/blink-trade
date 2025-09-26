@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "decoder"
+    static_configs:
+      - targets: ["decoder-1:8000"] # Your decoder exposes metrics on port 8000
+    scrape_interval: 10s
+
+  - job_name: "consumer"
+    static_configs:
+      - targets: ["consumer-1:8000"] # If consumer also exposes metrics
+    scrape_interval: 10s
+
+  - job_name: "simulator"
+    static_configs:
+      - targets: ["simulator-1:8000"] # If simulator also exposes metrics
+    scrape_interval: 10s
+
+  # Add other services that expose metrics
+  - job_name: "kafka-exporter"
+    static_configs:
+      - targets: ["kafka-1:9308"] # If you have Kafka exporter
+    scrape_interval: 10s
